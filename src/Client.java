@@ -4,11 +4,13 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.io.PrintWriter;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Client {
     private PrintWriter out;
     private BufferedReader in;
     private String name;
+    //ObjectMapper mapper = new ObjectMapper();
 
     void run(String name) {
         try{
@@ -18,7 +20,12 @@ public class Client {
             this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             this.name = name;
 
-            sendMessage(this.name);
+            sendMessage("{\n"
+                    + "\"type\": \"GET\",\n"
+                    + "\"req\": \"getAppointmentsList\"\n"
+                    + "}"
+            );
+            //sendMessage(mapper.writeValueAsString(new Messaggio("getAppointmentsList")));
 
         } catch (UnknownHostException e) {
             System.out.println("Connessione non riuscita.");
