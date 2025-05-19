@@ -1,32 +1,61 @@
 import java.net.Socket;
 import java.io.*;
+import java.util.HashMap;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 public class ServerThread implements Runnable{
 
     Socket clientConnection = null;
     private PrintWriter out;
     private BufferedReader in;
-    private Parrucchiere parrucchiere;
+    Parrucchiere parrucchiere;
+    ObjectMapper mapper = new ObjectMapper();
 
 
     @Override
     public void run() {
-        try {
-            System.out.println("server<" + in.readLine());
-            Messaggio msg = mapper.readValue(in.readLine(), Messaggio.class);
-            String req = msg.getReq();
-            switch(req) {
-                case "getAppointmentsList":
-                    sendMessage(mapper.writeValueAsString(parrucchiere.getListaAppuntamenti()));
+        boolean exit = false;
+        do{
+            try {
+
+                String input = in.readLine();
+                System.out.println("server<" + input);
+                Messaggio msg = mapper.readValue(input, Messaggio.class);
+                String req = msg.getReq();
+
+                //System.out.println("req: " + req);
+                Messaggio resp;
+                switch(req) {
+                    case "getAppointmentsList":
+                        resp = new Messaggio(false, null, parrucchiere.toString(), new HashMap<>());
+                        sendMessage(mapper.writeValueAsString(resp));
+                        break;
+                    case "setBook":
+                        boolean esito = parrucchiere.prenota(SlotAppuntamento.toSlotAppuntamento(msg.getParam().get("slot")), msg.getParam().get("name"));
+                        if(esito){
+                            resp = new Messaggio(false, null, "Booking successfull" , new HashMap<>());
+                        }else{
+                            resp = new Messaggio(false, null, "Booking failed", new HashMap<>());
+                        }
+                        sendMessage(mapper.writeValueAsString(resp));
+                        break;
+                    case "confirmBook":
+                        sendMessage(mapper.writeValueAsString(new Messaggio(false, null, "Confirmed." , new HashMap<>())));
+                        exit = true;
+                        break;
+                    default:
+                        System.err.println("[ERRORE] Richiesta non valida.");
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        }while(!exit);
     }
 
-    public void start(Socket socket) {
+    public void start(Socket socket, Parrucchiere parrucchiere) {
 
         try {
+            this.parrucchiere = parrucchiere;
             this.clientConnection = socket;
             this.out = new PrintWriter(clientConnection.getOutputStream());
             this.out.flush();
@@ -44,7 +73,7 @@ public class ServerThread implements Runnable{
         try{
             this.out.println(request);
             this.out.flush();
-            System.out.println("client>" + request);
+            System.out.println("server>" + request);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
