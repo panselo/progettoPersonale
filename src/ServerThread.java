@@ -11,7 +11,6 @@ public class ServerThread implements Runnable{
     Parrucchiere parrucchiere;
     ObjectMapper mapper = new ObjectMapper();
 
-
     @Override
     public void run() {
         boolean exit = false;

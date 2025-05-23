@@ -8,10 +8,10 @@ public class Parrucchiere {
     public Parrucchiere() {
         this.slotAppuntamenti.add(new SlotAppuntamento("2025-04-28 08:00", "2025-04-28 08:30",null));
         this.slotAppuntamenti.add(new SlotAppuntamento("2025-04-28 08:30", "2025-04-28 09:00",null));
-        this.slotAppuntamenti.add(new SlotAppuntamento("2025-04-28 09:00", "2025-04-28 09:30",null));
-        this.slotAppuntamenti.add(new SlotAppuntamento("2025-04-28 09:30", "2025-04-28 10:00",null));
-        this.slotAppuntamenti.add(new SlotAppuntamento("2025-04-28 10:00", "2025-04-28 10:30",null));
-        this.slotAppuntamenti.add(new SlotAppuntamento("2025-04-28 10:30", "2025-04-28 11:00",null));
+        this.slotAppuntamenti.add(new SlotAppuntamento("2025-04-28 15:00", "2025-04-28 15:30",null));
+        this.slotAppuntamenti.add(new SlotAppuntamento("2025-04-28 15:30", "2025-04-28 16:00",null));
+        this.slotAppuntamenti.add(new SlotAppuntamento("2025-04-28 19:00", "2025-04-28 19:30",null));
+        this.slotAppuntamenti.add(new SlotAppuntamento("2025-04-28 19:30", "2025-04-28 20:00",null));
     }
 
     //Non usato perche usato il toString in quanto ci serviva una corretta formattazione

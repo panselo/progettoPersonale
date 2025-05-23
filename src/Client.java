@@ -30,9 +30,10 @@ public class Client {
             int sceltaOpzione;
             do {
                 System.out.print(
+                        "\nBENVENUTO IN PANSE BARBER SHOP" +
                         "\nScegli un'opzione:" +
-                                "\n1) Richiedi Lista appuntamenti" +
-                                "\n2) Prenota" +
+                                "\n1) Lista appuntamenti" +
+                                "\n2) Prenota appuntamento" +
                                 "\n3) Concludi prenotazione" +
                                 "\n> "
                 );
